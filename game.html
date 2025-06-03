@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Card Memory Game – Play</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1 id="main-title">Memory Game</h1>
+    <h2 id="status">Time: 0s</h2>
+  </header>
+
+  <div id="game-board" class="board"></div>
+
+  <script>
+    // Grab the board and status elements
+    const gameBoard = document.getElementById("game-board");
+    const statusDisplay = document.getElementById("status");
+
+    // Read "level" from URL (default to "medium")
+    const params = new URLSearchParams(window.location.search);
+    const level = params.get("level") || "medium";
+
+    // Full set of images (make sure these files really exist under /images)
+    const allImages = [
+      "images/elan1.jpeg",
+      "images/elan2.jpeg",
+      "images/elan3.jpeg",
+      "images/lem.jpeg",
+      "images/lim.jpeg",
+      "images/lom.jpeg"
+    ];
+
+    // Map difficulty to number of pairs
+    const levelMap = {
+      easy: 2,    // 2 pairs → 4 cards total
+      medium: 4,  // 4 pairs → 8 cards total
+      hard: 6     // 6 pairs → 12 cards total
+    };
+
+    let flippedCards = [];
+    let matchedPairs = 0;
+    const totalPairs = levelMap[level] || levelMap["medium"];
+    let timerInterval = null;
+    let startTime = null;
+
+    // 1) Prepare and shuffle the cards for the chosen level
+    function prepareCards() {
+      // Take exactly "totalPairs" images, duplicate each, then shuffle
+      const selected = allImages.slice(0, totalPairs);
+      const cards = [...selected, ...selected]; // duplicate for pairs
+      return cards.sort(() => Math.random() - 0.5);
+    }
+
+    // 2) Render the grid of cards
+    function renderBoard() {
+      gameBoard.innerHTML = "";
+      statusDisplay.textContent = "Time: 0s";
+      matchedPairs = 0;
+      flippedCards = [];
+
+      // Apply a CSS class to control grid‐size based on difficulty
+      gameBoard.className = `board ${level}`;
+
+      const shuffled = prepareCards();
+      shuffled.forEach((src, index) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.index = index;
+        card.dataset.src = src;
+
+        // Create the <img> and hide it initially
+        const img = document.createElement("img");
+        img.src = src;
+        img.style.visibility = "hidden";
+        card.appendChild(img);
+
+        // Clicking flips the card
+        card.addEventListener("click", () => flipCard(card));
+
+        gameBoard.appendChild(card);
+      });
+
+      // Start the timer
+      if (timerInterval) clearInterval(timerInterval);
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // 3) Flip a card
+    function flipCard(card) {
+      // If fewer than 2 are flipped and this one isn't already flipped:
+      if (flippedCards.length < 2 && !card.classList.contains("flipped")) {
+        card.classList.add("flipped");
+        card.querySelector("img").style.visibility = "visible";
+        flippedCards.push(card);
+
+        if (flippedCards.length === 2) {
+          setTimeout(checkMatch, 700);
+        }
+      }
+    }
+
+    // 4) Check for match / mismatch
+    function checkMatch() {
+      const [card1, card2] = flippedCards;
+
+      if (card1.dataset.src === card2.dataset.src) {
+        // They match
+        matchedPairs++;
+        if (matchedPairs === totalPairs) {
+          gameWon();
+        }
+      } else {
+        // Not a match → flip them back over
+        card1.classList.remove("flipped");
+        card1.querySelector("img").style.visibility = "hidden";
+        card2.classList.remove("flipped");
+        card2.querySelector("img").style.visibility = "hidden";
+      }
+
+      flippedCards = [];
+    }
+
+    // 5) Update the on‐screen timer every second
+    function updateTimer() {
+      const seconds = Math.floor((Date.now() - startTime) / 1000);
+      statusDisplay.textContent = `Time: ${seconds}s`;
+    }
+
+    // 6) Called when all pairs are found
+    function gameWon() {
+      clearInterval(timerInterval);
+      const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+      statusDisplay.textContent = `🎉 You win! Time: ${timeTaken}s`;
+
+      // Reset the board after 3 seconds
+      setTimeout(() => {
+        renderBoard();
+      }, 3000);
+    }
+
+    // Kick things off
+    renderBoard();
+  </script>
+</body>
+</html>
