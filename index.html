@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Card Memory Game</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1 id="main-title">Welcome to the Card Memory Game!</h1>
+    <p class="description">Choose your difficulty and start playing!</p>
+
+    <form id="difficultyForm">
+      <label for="difficulty">Select Difficulty:</label>
+      <select id="difficulty" name="difficulty">
+        <option value="easy">Easy (2×2)</option>
+        <option value="medium" selected>Medium (4×4)</option>
+        <option value="hard">Hard (6×6)</option>
+      </select>
+      <button type="submit">Start Game</button>
+    </form>
+  </header>
+
+  <script>
+    document.getElementById("difficultyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const level = document.getElementById("difficulty").value;
+      window.location.href = `game.html?level=${level}`;
+    });
+  </script>
+</body>
+</html>
