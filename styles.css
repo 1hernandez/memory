@@ -1,0 +1,105 @@
+/* --------- RESET + BASE ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* --------- HEADER & TITLES ---------- */
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+#main-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+.description {
+  color: #555;
+  margin-bottom: 10px;
+}
+#status {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* --------- DIFFICULTY FORM (index.html) ---------- */
+form#difficultyForm {
+  margin-bottom: 20px;
+}
+form#difficultyForm label {
+  margin-right: 10px;
+}
+form#difficultyForm select,
+form#difficultyForm button {
+  padding: 5px 10px;
+  font-size: 1rem;
+}
+
+/* --------- GAME BOARD GRID ---------- */
+.board {
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* 2×2 grid for easy (4 cards) */
+.board.easy {
+  grid-template-columns: repeat(2, 100px);
+}
+
+/* 4×4 grid for medium (8 cards) */
+.board.medium {
+  grid-template-columns: repeat(4, 100px);
+}
+
+/* 6×6 grid for hard (12 cards) */
+.board.hard {
+  grid-template-columns: repeat(6, 100px);
+}
+
+/* --------- CARD STYLES ---------- */
+.card {
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+/* Flip‐animation effect (rotateY) */
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Card image covers entire card */
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Before flipping, hide the image */
+.card:not(.flipped) img {
+  visibility: hidden;
+}
