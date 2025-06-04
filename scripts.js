@@ -1,4 +1,3 @@
-// ChatGPT helped add difficulty-level logic and dynamic image loading
 
 const gameBoard = document.getElementById("game-board");
 const statusDisplay = document.getElementById("status");
@@ -6,12 +5,12 @@ const params = new URLSearchParams(window.location.search);
 const level = params.get("level") || "medium";
 
 const allImages = [
-  "images/elan1.jpeg",
-  "images/elan2.jpeg",
-  "images/elan3.jpeg",
-  "images/lem.jpeg",
-  "images/lim.jpeg",
-  "images/lom.jpeg"
+  "elan1.jpeg",
+  "elan2.jpeg",
+  "elan3.jpeg",
+  "lem.jpeg",
+  "lim.jpeg",
+  "lom.jpeg"
 ];
 
 const levelMap = {
