@@ -7,7 +7,9 @@ how to:
 When you open the website it will ask you to pick a difficulty,easy is 2x2, medium is 4x4, and hard is 6x6. to select a difficulty level click on the arrows and chose from the options. Once you selected press start game and it will take you to the game page. Once you have enterd the game page click on the gray squares to reveal the picture. Dont forget to memories what the picture is. Once you have completed the bored it will show you your time and reset the board. If you are done playing close the tab. If you want to choose a different dificulty level press the back button on your device. 
 
 video referance:
-![EF673B5C-B986-4390-8B39-0EF92ED0DF2F_1_102_o](https://github.com/user-attachments/assets/dfac3747-3bf7-43de-9b03-69c0ef7579c8)
+[
+](https://share.icloud.com/photos/0d9dCHdYUl841pRGb8ln8G0Nw)
+
 
 index.html - Main begining page
 game.html - page where the game is played
